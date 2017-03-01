@@ -7,6 +7,7 @@ const watch = require('gulp-watch');
 const path = require('path');
 
 
+let sassSrc = 'src/sass/**/*.scss';
 gulp.task('default', () => {
     console.info('hello');
     browserSync.init({
@@ -22,11 +23,11 @@ gulp.task('default', () => {
     gulp.src('./src/js/**/*.js')
         .pipe(watch('./src/js/**/*.js'))
         .on('change', browserSync.reload);
+    gulp.watch(sassSrc, ['sass']);
+});
 
-
-    let sassSrc = 'src/sass/**/*.scss';
+gulp.task('sass', function () {
     return gulp.src(sassSrc)
-        .pipe(watch(sassSrc))
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
